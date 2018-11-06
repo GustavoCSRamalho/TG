@@ -12,39 +12,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="83dp"
         android:orientation="horizontal"
         android:padding="8dp">
+
+
         <Button
-            android:id="@+id/assedio"
+            android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+
             android:background="@drawable/botao_customizado"
             android:text="Assédio" />
+        <!--android:background="@drawable/nomeDoseuShape"-->
         <View
             android:id="@+id/VerticalLine1"
             android:layout_width="3dip"
             android:layout_height="match_parent"/>
+            <!--android:background="#aaa"/>-->
+            <!--android:padding="8dp"/>-->
+
         <Button
-            android:id="@+id/ameaca"
+            android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/botao_customizado"
             android:text="Agressão" />
+        <!--android:background="@android:color/holo_red_dark"-->
         <View
             android:id="@+id/VerticalLine2"
             android:layout_width="3dip"
             android:layout_height="match_parent"/>
+            <!--android:background="#aaa" />-->
+
         <Button
-            android:id="@+id/danomoral"
+            android:id="@+id/button3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/botao_customizado"
             android:text="Dano moral" />
+        <!--android:background="@android:color/holo_purple"-->
     </LinearLayout>
 </FrameLayout>
