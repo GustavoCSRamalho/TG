@@ -1,4 +1,4 @@
-package com.example.root.tg_01;
+package com.example.root.tg_01.models;
 
 public class Coordenate {
 

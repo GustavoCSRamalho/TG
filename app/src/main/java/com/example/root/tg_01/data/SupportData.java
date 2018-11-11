@@ -1,4 +1,6 @@
-package com.example.root.tg_01;
+package com.example.root.tg_01.data;
+
+import com.example.root.tg_01.models.Coordenate;
 
 public class SupportData {
 

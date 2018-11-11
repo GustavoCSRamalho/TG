@@ -1,9 +1,9 @@
-package com.example.root.tg_01.service;
+package com.example.root.tg_01.service.database;
 
 import android.os.AsyncTask;
 
-import com.example.root.tg_01.Coordenate;
-import com.example.root.tg_01.SupportData;
+import com.example.root.tg_01.models.Coordenate;
+import com.example.root.tg_01.data.SupportData;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 

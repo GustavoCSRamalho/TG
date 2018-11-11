@@ -1,4 +1,4 @@
-package com.example.root.tg_01;
+package com.example.root.tg_01.main;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,19 +10,23 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.root.tg_01.service.GetCoordenatesAsyncTask;
-import com.example.root.tg_01.service.MongoLabSaveCoordenate;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.example.root.tg_01.models.Coordenate;
+import com.example.root.tg_01.R;
+import com.example.root.tg_01.service.button.ButtonAction;
+import com.example.root.tg_01.service.button.interfaces.ButtonActionInterf;
+import com.example.root.tg_01.service.coordenate.CoordenateListener;
+import com.example.root.tg_01.service.coordenate.interfaces.CoordenateListenerInterf;
+import com.example.root.tg_01.service.database.GetCoordenatesAsyncTask;
+import com.example.root.tg_01.service.maps.MapsAction;
+import com.example.root.tg_01.service.maps.interfaces.MapsActionInterf;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
@@ -32,12 +36,9 @@ import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private volatile GoogleMap mMap;
-
-    private TextView textView;
-
     TextView txtLatitude, txtLongitude;
-
+    private volatile GoogleMap mMap;
+    private TextView textView;
     private volatile LocationManager locationManager;
 
     private volatile LocationListener locationListener;
@@ -54,10 +55,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ArrayList<Coordenate> returnValues = new ArrayList<Coordenate>();
 
+    private ButtonActionInterf buttonAction;
+
+    private CoordenateListenerInterf coordenateListener;
+
+    private MapsActionInterf mapsAction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        coordenateListener = CoordenateListener.getInstance();
+        mapsAction = MapsAction.getInstance();
+        buttonAction = ButtonAction.getInstance();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -76,75 +85,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         botaoAmeaca = (Button) findViewById(R.id.ameaca);
         botaoDanomoral = (Button) findViewById(R.id.danomoral);
 
-        botaoAssedio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Log.d()
-                coordenate.setTipo("Assédio");
-
-                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-                tsk.execute(coordenate);
-                Toast.makeText(MapsActivity.this, "Saved to MongoDB!! Assedio!" + coordenate.getLatitude() + ": "
-                        + coordenate.getLatitude(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        botaoAmeaca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coordenate.setTipo("Ameaca");
-
-                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-                tsk.execute(coordenate);
-                Toast.makeText(MapsActivity.this, "Saved to MongoDB!! Ameaca!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        botaoDanomoral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coordenate.setTipo("Danomoral");
-
-                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-                tsk.execute(coordenate);
-                Toast.makeText(MapsActivity.this, "Saved to MongoDB!! Danomoral!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        Toast.makeText(this, "Saved to MongoDB!!", Toast.LENGTH_SHORT).show();
-
-//        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//        locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-////                textView.setText("Lat : "+location.getLatitude()+"\t Long : "+location.getLongitude());
-//                LatLng sydney = new LatLng(location.getLatitude(), location.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(sydney).title("Casa"));
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//                coordenate = new Coordenate();
-////                synchronized (coordenate){}
-//                coordenate.setLatitude(location.getLatitude());
-//                coordenate.setLongitude(location.getLongitude());
-////                coordenate.setTipo("Assédio");
-////
-////                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-////                tsk.execute(coordenate);
-//            }
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) { }
-//            @Override
-//            public void onProviderEnabled(String provider) { }
-//            @Override
-//            public void onProviderDisabled(String provider) {
-////                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-////                startActivity(intent);
-//            }
-//        };
-
+        buttonAction.botaoAmeaca(botaoAmeaca, MapsActivity.this);
+        buttonAction.botaoAssedioAction(botaoAssedio,MapsActivity.this);
+        buttonAction.botaoDanomoral(botaoDanomoral,MapsActivity.this);
     }
 
-    public void atualizar(Location location)
-    {
+    public void atualizar(Location location) {
         Double latPoint = location.getLatitude();
         Double lngPoint = location.getLongitude();
 
@@ -155,15 +101,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void configurarServico() {
         try {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
+            mMap.setMyLocationEnabled(true);
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
                     LatLng sydney = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(sydney).title("Casa"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Casa"));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                     coordenate = new Coordenate();
                     coordenate.setLatitude(location.getLatitude());
                     coordenate.setLongitude(location.getLongitude());
+                    coordenateListener.setCoordenate(coordenate);
                     atualizar(location);
                 }
 
@@ -207,25 +154,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered w                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     hen the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mapsAction.setGoogleMap(mMap);
+
         pedirPermissoes();
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         GetCoordenatesAsyncTask getTask = new GetCoordenatesAsyncTask();
 
         try {
@@ -237,11 +173,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         System.out.println("saida : " + returnValues.size());
         for (Coordenate coordenate : returnValues) {
-//            Toast.makeText(MapsActivity.this, returnValues.size(),
-//                    Toast.LENGTH_SHORT).show();;
-//            System.out.println(coordenate.getTipo());
             LatLng sydney = new LatLng(coordenate.getLatitude(), coordenate.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(sydney).title(coordenate.getTipo()));
+            mapsAction.addMarker(sydney,coordenate);
+//            mMap.addMarker(new MarkerOptions().position(sydney).title(coordenate.getTipo()));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
