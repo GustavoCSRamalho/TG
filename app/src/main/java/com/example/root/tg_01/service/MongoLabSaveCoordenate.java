@@ -1,13 +1,16 @@
-package com.example.root.tg_01;
+package com.example.root.tg_01.service;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.root.tg_01.Coordenate;
+import com.example.root.tg_01.SupportData;
 
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-final class MongoLabSaveCoordenate extends AsyncTask<Object, Void, Boolean> {
+public class MongoLabSaveCoordenate extends AsyncTask<Object, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Object... params) {
