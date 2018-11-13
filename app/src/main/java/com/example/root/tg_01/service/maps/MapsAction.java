@@ -32,4 +32,9 @@ public class MapsAction implements MapsActionInterf {
         mMap.addMarker(new MarkerOptions().position(latLng).title(coordenate.getTipo()));
     }
 
+    @Override
+    public void clear(){
+        mMap.clear();
+    }
+
 }

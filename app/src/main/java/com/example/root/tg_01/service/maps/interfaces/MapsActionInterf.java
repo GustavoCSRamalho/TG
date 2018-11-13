@@ -9,4 +9,6 @@ public interface MapsActionInterf {
     void setGoogleMap(GoogleMap map);
 
     void addMarker(LatLng latLng, Coordenate coordenate);
+
+    void clear();
 }

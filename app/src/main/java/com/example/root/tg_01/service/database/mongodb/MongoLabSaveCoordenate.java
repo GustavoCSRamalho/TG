@@ -1,10 +1,11 @@
-package com.example.root.tg_01.service.database;
+package com.example.root.tg_01.service.database.mongodb;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.root.tg_01.models.Coordenate;
-import com.example.root.tg_01.data.SupportData;
+import com.example.root.tg_01.utils.interfaces.SupportData;
+import com.example.root.tg_01.utils.mongodb.SupportDataMongoDB;
 
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -15,15 +16,15 @@ public class MongoLabSaveCoordenate extends AsyncTask<Object, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Object... params) {
         Coordenate contact = (Coordenate) params[0];
-        Log.d("contact", ""+contact);
+        Log.d("contact", "" + contact);
 
         try {
 
 
-            SupportData sd = new SupportData();
+            SupportData sd = new SupportDataMongoDB();
             URL url = new URL(sd.buildContactsSaveURL());
 
-            Log.d("url", ""+url);
+            Log.d("url", "" + url);
 
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
@@ -40,14 +41,11 @@ public class MongoLabSaveCoordenate extends AsyncTask<Object, Void, Boolean> {
             osw.flush();
             osw.close();
 
-            Log.d("Response code", ""+(connection.getResponseCode()));
-            if(connection.getResponseCode() <205)
-            {
+            Log.d("Response code", "" + (connection.getResponseCode()));
+            if (connection.getResponseCode() < 205) {
 
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
 
             }

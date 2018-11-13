@@ -1,9 +1,10 @@
-package com.example.root.tg_01.service.database;
+package com.example.root.tg_01.service.database.mongodb;
 
 import android.os.AsyncTask;
 
 import com.example.root.tg_01.models.Coordenate;
-import com.example.root.tg_01.data.SupportData;
+import com.example.root.tg_01.utils.interfaces.SupportData;
+import com.example.root.tg_01.utils.mongodb.SupportDataMongoDB;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 
@@ -23,7 +24,7 @@ public class GetCoordenatesAsyncTask extends AsyncTask<Coordenate, Void, ArrayLi
 
         ArrayList<Coordenate> coordenateArrayList = new ArrayList<Coordenate>();
         try {
-            SupportData sd = new SupportData();
+            SupportData sd = new SupportDataMongoDB();
             URL url = new URL(sd.buildContactsFetchURL());
             HttpURLConnection conn = (HttpURLConnection) url
                     .openConnection();
@@ -42,7 +43,7 @@ public class GetCoordenatesAsyncTask extends AsyncTask<Coordenate, Void, ArrayLi
                 server_output = temp_output;
             }
 
-            String mongoarray = "{ DB_output: "+server_output+"}";
+            String mongoarray = "{ DB_output: " + server_output + "}";
             System.out.println(mongoarray);
             Object o = com.mongodb.util.JSON.parse(mongoarray);
 
@@ -60,7 +61,7 @@ public class GetCoordenatesAsyncTask extends AsyncTask<Coordenate, Void, ArrayLi
 
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.getMessage();
         }
 

@@ -25,6 +25,9 @@ import com.example.root.tg_01.service.button.ButtonAction;
 import com.example.root.tg_01.service.button.interfaces.ButtonActionInterf;
 import com.example.root.tg_01.service.coordenate.CoordenateListener;
 import com.example.root.tg_01.service.coordenate.interfaces.CoordenateListenerInterf;
+import com.example.root.tg_01.service.database.firebase.FireBaseService;
+import com.example.root.tg_01.service.database.firebase.interfaces.FireBaseInterf;
+import com.example.root.tg_01.service.database.mongodb.GetCoordenatesAsyncTask;
 import com.example.root.tg_01.service.maps.MapsAction;
 import com.example.root.tg_01.service.maps.interfaces.MapsActionInterf;
 import com.google.android.gms.location.Geofence;
@@ -39,8 +42,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mongodb.client.MongoCollection;
 
@@ -48,6 +49,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -56,8 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int GEOFENCE_RADIUS = 5000;
     //in milli seconds
     private static final int GEOFENCE_EXPIRATION = 6000;
-
     TextView txtLatitude, txtLongitude;
+    private FireBaseInterf fireBaseInterf;
     private volatile GoogleMap mMap;
     private TextView textView;
     private volatile LocationManager locationManager;
@@ -248,41 +250,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mapsAction.setGoogleMap(mMap);
+        fireBaseInterf = FireBaseService.getInstance();
+        fireBaseInterf.buildConfiguration();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("testando");
-        Coordenate c = new Coordenate();
-        c.setLatitude(3);
-        c.setLongitude(123);
-        c.setTipo("Teste uhuu");
-        myRef.push().setValue(c);
+
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("testando");
+//        Coordenate c = new Coordenate();
+//        c.setLatitude(3);
+//        c.setLongitude(123);
+//        c.setTipo("Teste uhuu");
+//        myRef.push().setValue(c);
 
         pedirPermissoes();
+        fireBaseInterf.setAllData();
+        fireBaseInterf.setListenerToDataBase();
 //        c = new Coordenate();
-        c.setTipo("Teste");
-        mapsAction.addMarker(new LatLng(-23.311251666666667, -46.006620000000005), c);
+//        c.setTipo("Teste");
+//        mapsAction.addMarker(new LatLng(-23.311251666666667, -46.006620000000005), c);
 
-        addLocationAlert(-23.311251666666667, -46.006620000000005);
+//        addLocationAlert(-23.311251666666667, -46.006620000000005);
 
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                List<String> userlist = new ArrayList<String>();
-                // Result will be holded Here
-                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    userlist.add(String.valueOf(dsp.getValue())); //add result into array list
-                    System.out.println("Imp : ----  "+String.valueOf(dsp.getValue()));
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+////                mMap.clear();
+//                List<String> userlist = new ArrayList<String>();
+//                // Result will be holded Here
+//                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+//                    userlist.add(String.valueOf(dsp.getValue())); //add result into array list
+//                    System.out.println("Imp : ----  " + String.valueOf(dsp.getValue()));
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 //        GetCoordenatesAsyncTask getTask = new GetCoordenatesAsyncTask();
 //
 //        try {
@@ -295,7 +302,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        System.out.println("saida : " + returnValues.size());
 //        for (Coordenate coordenate : returnValues) {
 //            LatLng sydney = new LatLng(coordenate.getLatitude(), coordenate.getLongitude());
-//            mapsAction.addMarker(sydney,coordenate);
+//            mapsAction.addMarker(sydney, coordenate);
 ////            mMap.addMarker(new MarkerOptions().position(sydney).title(coordenate.getTipo()));
 //            try {
 //                Thread.sleep(1000);

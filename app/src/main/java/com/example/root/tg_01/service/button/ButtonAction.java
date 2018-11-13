@@ -9,16 +9,20 @@ import com.example.root.tg_01.models.Coordenate;
 import com.example.root.tg_01.service.button.interfaces.ButtonActionInterf;
 import com.example.root.tg_01.service.coordenate.CoordenateListener;
 import com.example.root.tg_01.service.coordenate.interfaces.CoordenateListenerInterf;
-import com.example.root.tg_01.service.database.MongoLabSaveCoordenate;
+import com.example.root.tg_01.service.database.firebase.FireBaseService;
+import com.example.root.tg_01.service.database.firebase.interfaces.FireBaseInterf;
+import com.example.root.tg_01.service.database.mongodb.MongoLabSaveCoordenate;
 
 public class ButtonAction implements ButtonActionInterf {
 
     public static ButtonAction buttonAction;
     private CoordenateListenerInterf coordenateListener;
     private Coordenate coordenate;
+    private FireBaseInterf fireBaseInterf;
 
     protected ButtonAction() {
         coordenateListener = CoordenateListener.getInstance();
+        fireBaseInterf = FireBaseService.getInstance();
     }
 
     public static ButtonAction getInstance() {
@@ -36,9 +40,9 @@ public class ButtonAction implements ButtonActionInterf {
             public void onClick(View v) {
                 coordenate = coordenateListener.getCoordenate();
                 coordenate.setTipo("Assédio");
-
-                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-                tsk.execute(coordenate);
+                fireBaseInterf.saveData(coordenate);
+//                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
+//                tsk.execute(coordenate);
                 Toast.makeText(context, "Saved to MongoDB!! Assedio!" + coordenate.getLatitude() + ": "
                         + coordenate.getLongitude(), Toast.LENGTH_SHORT).show();
             }
@@ -53,8 +57,10 @@ public class ButtonAction implements ButtonActionInterf {
                 coordenate = coordenateListener.getCoordenate();
                 coordenate.setTipo("Ameaca");
 
-                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-                tsk.execute(coordenate);
+                fireBaseInterf.saveData(coordenate);
+
+//                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
+//                tsk.execute(coordenate);
                 Toast.makeText(context, "Saved to MongoDB!! Ameaca!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -68,9 +74,9 @@ public class ButtonAction implements ButtonActionInterf {
             public void onClick(View v) {
                 coordenate = coordenateListener.getCoordenate();
                 coordenate.setTipo("Danomoral");
-
-                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
-                tsk.execute(coordenate);
+                fireBaseInterf.saveData(coordenate);
+//                MongoLabSaveCoordenate tsk = new MongoLabSaveCoordenate();
+//                tsk.execute(coordenate);
                 Toast.makeText(context, "Saved to MongoDB!! Danomoral!", Toast.LENGTH_SHORT).show();
             }
         });
