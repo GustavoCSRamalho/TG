@@ -43,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".main.LocationAlertIntentService" android:allowBackup="true"></service>
     </application>
 
 </manifest>

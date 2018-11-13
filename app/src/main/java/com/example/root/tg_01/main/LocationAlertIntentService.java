@@ -45,31 +45,27 @@ public class LocationAlertIntentService extends IntentService {
         System.out.println(""+geofenceTransition);
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
-            System.out.println("Entreii, se loco!");
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
-            System.out.println("1");
             String transitionDetails = getGeofenceTransitionInfo(
                     triggeringGeofences);
-            System.out.println("2");
             String transitionType = getTransitionString(geofenceTransition);
 
-            System.out.println("3");
             notifyLocationAlert(transitionType, transitionDetails);
         }
 
-//        String CHANNEL_ID = "Zoftino";
-//        NotificationCompat.Builder builder =
-//                new NotificationCompat.Builder(this, CHANNEL_ID)
-//                        .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-//                        .setContentTitle("Aviso")
-//                        .setContentText("Achei algo");
-//
-//        builder.setAutoCancel(true);
-//
-//        NotificationManager mNotificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        mNotificationManager.notify(0, builder.build());
+        String CHANNEL_ID = "Zoftino";
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                        .setContentTitle("Aviso")
+                        .setContentText("Achei algo");
+
+        builder.setAutoCancel(true);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(0, builder.build());
 
         System.out.println("Euuuuuu");
     }
