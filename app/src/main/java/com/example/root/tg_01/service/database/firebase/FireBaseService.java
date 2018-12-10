@@ -50,7 +50,8 @@ public class FireBaseService implements FireBaseInterf {
         fireBaseService.supportData = new SupportDataFireDB();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         fireBaseService.dataBaseRef = database.getReference(supportData.getDatabaseName());
-//        setListenerToDataBase();
+        setAllData();
+        setListenerToDataBase();
     }
 
     public void setAllData(){
@@ -77,6 +78,11 @@ public class FireBaseService implements FireBaseInterf {
             }
         });
 
+    }
+
+    @Override
+    public List getAllData() {
+        return coordenatelist;
     }
 
     public void setListenerToDataBase(){

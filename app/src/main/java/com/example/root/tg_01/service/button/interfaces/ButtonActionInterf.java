@@ -7,7 +7,13 @@ public interface ButtonActionInterf {
 
     void botaoAssedioAction(Button button, Context context);
 
-    void botaoAmeaca(Button button,Context context);
+    void botaoAmeaca(Button button, Context context);
 
     void botaoDanomoral(Button button, Context context);
+
+
+    void botaoInformacao(Button button, Context context);
+
+
+    void buildButoes(Button[] butoes, Context context);
 }

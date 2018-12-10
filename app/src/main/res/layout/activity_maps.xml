@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".main.MapsActivity">
 
+
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
@@ -12,46 +14,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".main.MapsActivity" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="83dp"
+        android:layout_marginTop="450dp"
         android:orientation="horizontal"
         android:padding="8dp">
+
         <Button
             android:id="@+id/assedio"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/botao_customizado"
+            android:background="@drawable/botao_customizado_assedio"
             android:text="Assédio" />
+
         <View
             android:id="@+id/VerticalLine1"
             android:layout_width="3dip"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
         <Button
             android:id="@+id/ameaca"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/botao_customizado"
+            android:background="@drawable/botao_customizado_ameaca"
             android:text="Agressão" />
+
         <View
             android:id="@+id/VerticalLine2"
             android:layout_width="3dip"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
         <Button
             android:id="@+id/danomoral"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/botao_customizado"
+            android:background="@drawable/botao_customizado_dano_moral"
             android:text="Dano moral" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="100dp">
+        android:paddingTop="80dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +78,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="80dp">
+        android:paddingTop="50dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,5 +91,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/informacaoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INFORMAÇÃO" />
     </LinearLayout>
 </FrameLayout>

@@ -2,6 +2,13 @@ package com.example.root.tg_01.models;
 
 public class Coordenate {
 
+    public Coordenate(){}
+
+    public Coordenate(double latitude,double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     private double longitude;
 
     private double latitude;
