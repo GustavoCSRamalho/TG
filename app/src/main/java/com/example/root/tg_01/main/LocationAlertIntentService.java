@@ -2,6 +2,7 @@ package com.example.root.tg_01.main;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.root.tg_01.R;
+
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
@@ -53,14 +55,25 @@ public class LocationAlertIntentService extends IntentService {
             notifyLocationAlert(transitionType, transitionDetails);
         }
 
+
+
+        Intent myIntent = new Intent(this, service_information.class);
+        myIntent.putExtra("empresa","Eldourado");
+        myIntent.putExtra("destino","Jacarei");
+        myIntent.putExtra("descricao","Carga muito pesada");
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         String CHANNEL_ID = "Zoftino";
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                        .setContentTitle("Aviso")
-                        .setContentText("Achei algo");
+                        .setContentIntent(pendingIntent)
+                        .setContentTitle(intent.getStringExtra("empresa"))
+                        .setContentText(intent.getStringExtra("destino"))
+                ;
 
         builder.setAutoCancel(true);
+
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

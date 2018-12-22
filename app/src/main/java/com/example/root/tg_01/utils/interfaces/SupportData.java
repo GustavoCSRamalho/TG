@@ -4,7 +4,9 @@ import com.example.root.tg_01.models.Coordenate;
 
 public interface SupportData {
 
-    String getDatabaseName();
+    String getDatabaseNameCoordenate();
+
+    String getDatabaseNamePedidos();
 
     String getApiKey();
 

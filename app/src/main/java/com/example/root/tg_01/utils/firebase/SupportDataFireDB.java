@@ -5,8 +5,12 @@ import com.example.root.tg_01.utils.interfaces.SupportData;
 
 public class SupportDataFireDB implements SupportData{
 
-    public String getDatabaseName() {
+    public String getDatabaseNameCoordenate() {
         return "coordenates";
+    }
+
+    public String getDatabaseNamePedidos() {
+        return "pedidos";
     }
 
     public String getApiKey() {
@@ -14,7 +18,7 @@ public class SupportDataFireDB implements SupportData{
     }
 
     public String getBaseUrl() {
-        return "https://tcc01-6e0dd.firebaseio.com/" + getDatabaseName() + ".json";
+        return "https://tcc01-6e0dd.firebaseio.com/" + getDatabaseNameCoordenate() + ".json";
     }
 
     public String apiKeyUrl() {

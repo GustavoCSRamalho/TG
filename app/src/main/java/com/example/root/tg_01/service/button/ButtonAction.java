@@ -44,7 +44,7 @@ public class ButtonAction implements ButtonActionInterf {
                     Toast.makeText(context, "Aguarde um momento!", Toast.LENGTH_SHORT).show();
                 } else {
                     coordenate.setTipo("Assedio");
-                    fireBaseInterf.saveData(coordenate);
+                    fireBaseInterf.savecCoordenateData(coordenate);
                     Toast.makeText(context, "Saved to MongoDB!! Assedio!" + coordenate.getLatitude() + ": "
                             + coordenate.getLongitude(), Toast.LENGTH_SHORT).show();
                 }
@@ -62,7 +62,7 @@ public class ButtonAction implements ButtonActionInterf {
                     Toast.makeText(context, "Aguarde um momento!", Toast.LENGTH_SHORT).show();
                 } else {
                     coordenate.setTipo("Ameaca");
-                    fireBaseInterf.saveData(coordenate);
+                    fireBaseInterf.savecCoordenateData(coordenate);
                     Toast.makeText(context, "Saved to MongoDB!! Ameaca!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -80,7 +80,7 @@ public class ButtonAction implements ButtonActionInterf {
                     Toast.makeText(context, "Aguarde um momento!", Toast.LENGTH_SHORT).show();
                 } else {
                     coordenate.setTipo("Danomoral");
-                    fireBaseInterf.saveData(coordenate);
+                    fireBaseInterf.savecCoordenateData(coordenate);
                     Toast.makeText(context, "Saved to MongoDB!! Danomoral!", Toast.LENGTH_SHORT).show();
                 }
             }

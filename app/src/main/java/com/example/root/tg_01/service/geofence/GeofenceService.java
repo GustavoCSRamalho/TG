@@ -42,6 +42,9 @@ public class GeofenceService implements GeofenceInterf {
     //TODO: Adicionar o contexto no método
     public PendingIntent getGeofencePendingIntent() {
         Intent intent = new Intent(context, LocationAlertIntentService.class);
+        intent.putExtra("empresa","Eldourado");
+        intent.putExtra("destino","Jacarei");
+        intent.putExtra("descricao","Carga muito pesada");
         return PendingIntent.getService(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }

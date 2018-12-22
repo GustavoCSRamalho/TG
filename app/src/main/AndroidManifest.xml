@@ -52,6 +52,10 @@
                 android:value=".main.MapsActivity" />
         </activity>
         <service android:name=".main.LocationAlertIntentService" android:allowBackup="true"></service>
+
+        <activity android:name=".main.service_information">
+
+        </activity>
     </application>
 
 </manifest>

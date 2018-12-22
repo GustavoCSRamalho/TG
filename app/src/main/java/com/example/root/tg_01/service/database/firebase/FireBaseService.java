@@ -3,6 +3,7 @@ package com.example.root.tg_01.service.database.firebase;
 import android.support.annotation.NonNull;
 
 import com.example.root.tg_01.models.Coordenate;
+import com.example.root.tg_01.models.Pedido;
 import com.example.root.tg_01.service.database.firebase.interfaces.FireBaseInterf;
 import com.example.root.tg_01.service.maps.MapsAction;
 import com.example.root.tg_01.service.maps.interfaces.MapsActionInterf;
@@ -25,9 +26,13 @@ public class FireBaseService implements FireBaseInterf {
 
     private SupportData supportData;
 
-    private DatabaseReference dataBaseRef;
+    private DatabaseReference dataBaseRefCoordenate;
+
+    private DatabaseReference dataBaseRefPedidos;
 
     private List<Coordenate> coordenatelist;
+
+    private List<Pedido> pedidolist;
 
     private MapsActionInterf mapsActivity;
 
@@ -42,20 +47,46 @@ public class FireBaseService implements FireBaseInterf {
         return fireBaseService;
     }
 
-    public void saveData(Coordenate coordenate) {
-        fireBaseService.dataBaseRef.push().setValue(coordenate);
+
+    public void savecCoordenateData(Coordenate coordenate) {
+        fireBaseService.dataBaseRefCoordenate.push().setValue(coordenate);
     }
 
     public void buildConfiguration() {
         fireBaseService.supportData = new SupportDataFireDB();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        fireBaseService.dataBaseRef = database.getReference(supportData.getDatabaseName());
-        setAllData();
-        setListenerToDataBase();
+        fireBaseService.dataBaseRefCoordenate = database.getReference(supportData.getDatabaseNameCoordenate());
+        fireBaseService.dataBaseRefPedidos = database.getReference(supportData.getDatabaseNamePedidos());
+        setAllCoordenateData();
+        setListenerToCoordenateDataBase();
     }
 
-    public void setAllData(){
-        fireBaseService.dataBaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void setPedidoDataListener(){
+        fireBaseService.dataBaseRefPedidos.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                pedidolist = new ArrayList<>();
+                // Result will be holded Here
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    Pedido c = new Gson().fromJson(String.valueOf(dsp.getValue()), Pedido.class);
+                    pedidolist.add(c); //add result into array list
+                    System.out.println("Achei um pedido");
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public Pedido getPedidoData(Pedido pedido){
+        return null; // TODO : Finalizar
+    }
+
+    public void setAllCoordenateData(){
+        fireBaseService.dataBaseRefCoordenate.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mapsActivity.clear();
@@ -81,13 +112,13 @@ public class FireBaseService implements FireBaseInterf {
     }
 
     @Override
-    public List getAllData() {
+    public List getAllCoordenateData() {
         return coordenatelist;
     }
 
-    public void setListenerToDataBase(){
+    public void setListenerToCoordenateDataBase(){
 
-        fireBaseService.dataBaseRef.addValueEventListener(new ValueEventListener() {
+        fireBaseService.dataBaseRefCoordenate.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mapsActivity.clear();

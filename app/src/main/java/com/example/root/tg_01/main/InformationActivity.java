@@ -30,7 +30,7 @@ public class InformationActivity extends Activity {
         System.out.println("botao : "+danomoral);
 
 
-        allData = fireBaseInterf.getAllData();
+        allData = fireBaseInterf.getAllCoordenateData();
         int danomoralCount = 0;
         int assedioCount = 0;
         int ameacaCount = 0;

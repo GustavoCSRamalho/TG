@@ -5,7 +5,7 @@ import com.example.root.tg_01.utils.interfaces.SupportData;
 
 public class SupportDataMongoDB implements SupportData{
 
-    public String getDatabaseName() {
+    public String getDatabaseNameCoordenate() {
         return "coordenates";
     }
 
@@ -15,7 +15,7 @@ public class SupportDataMongoDB implements SupportData{
 
 
     public String getBaseUrl() {
-        return "https://api.mlab.com/api/1/databases/" + getDatabaseName() + "/collections/";
+        return "https://api.mlab.com/api/1/databases/" + getDatabaseNameCoordenate() + "/collections/";
     }
 
     public String apiKeyUrl() {
