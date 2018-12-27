@@ -9,6 +9,11 @@ public class SupportDataMongoDB implements SupportData{
         return "coordenates";
     }
 
+    @Override
+    public String getDatabaseNamePedidos() {
+        return "pedidos";
+    }
+
     public String getApiKey() {
         return "jJXag8fCX2q0HsF9QDmS0i3MpWtsZlHa";
     }
