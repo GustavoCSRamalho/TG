@@ -1,20 +1,39 @@
 package com.example.root.tg_01.models;
 
+import java.util.List;
+
 public class Pedido {
 
-    public Pedido(){}
+    private String empresa;
+    private String nome;
+    private String descricao;
+    private String destino;
+    private List<Usuario> caminhoneiros;
 
-    public Pedido(String empresa, String destino,String descricao){
+    public Pedido() {
+    }
+
+    public Pedido(String empresa, String destino, String descricao) {
         this.descricao = descricao;
         this.empresa = empresa;
         this.destino = destino;
     }
 
-    private String empresa;
+    public String getNome() {
+        return nome;
+    }
 
-    private String descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    private String destino;
+    public List<Usuario> getCaminhoneiros() {
+        return caminhoneiros;
+    }
+
+    public void setCaminhoneiros(List<Usuario> caminhoneiros) {
+        this.caminhoneiros = caminhoneiros;
+    }
 
     public String getEmpresa() {
         return empresa;

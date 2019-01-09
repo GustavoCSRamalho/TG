@@ -24,6 +24,6 @@ public class service_information extends Activity {
         destino.setText(extra.getString("destino"));
         descricao.setText(extra.getString("descricao"));
 
-        empresa.setText(extra.getString("empresa"));
+        empresa.setText(extra.getString("Empresa"));
     }
 }

@@ -58,7 +58,7 @@ public class LocationAlertIntentService extends IntentService {
 
 
         Intent myIntent = new Intent(this, service_information.class);
-        myIntent.putExtra("empresa","Eldourado");
+        myIntent.putExtra("Empresa","Eldourado");
         myIntent.putExtra("destino","Jacarei");
         myIntent.putExtra("descricao","Carga muito pesada");
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -68,7 +68,7 @@ public class LocationAlertIntentService extends IntentService {
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                         .setContentIntent(pendingIntent)
-                        .setContentTitle(intent.getStringExtra("empresa"))
+                        .setContentTitle(intent.getStringExtra("Empresa"))
                         .setContentText(intent.getStringExtra("destino"))
                 ;
 

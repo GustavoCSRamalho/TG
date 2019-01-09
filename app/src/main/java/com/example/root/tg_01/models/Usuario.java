@@ -1,8 +1,5 @@
 package com.example.root.tg_01.models;
 
-import com.example.root.tg_01.service.database.firebase.FireBaseService;
-import com.example.root.tg_01.service.database.firebase.interfaces.FireBaseInterf;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,6 +14,9 @@ public class Usuario {
     private String email;
     private String password;
     private int type;
+
+    public Usuario() {
+    }
 
     public String getUid() {
         return uid;
@@ -34,25 +34,21 @@ public class Usuario {
         this.type = type;
     }
 
-    public void salvar(){
+    public void salvar() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("usuario").child(String.valueOf(getId())).setValue(this);
-    }
-
-    public Usuario() {
+        reference.child("usuario").child(String.valueOf(getUid())).setValue(this);
     }
 
     @Exclude
-    public Map<String,Object> toMap(){
+    public Map<String, Object> toMap() {
         HashMap<String, Object> hashMapUsuario = new HashMap<>();
-        hashMapUsuario.put("id",getId());
-        hashMapUsuario.put("nome",getName());
-        hashMapUsuario.put("email",getEmail());
-        hashMapUsuario.put("senha",getPassword());
+        hashMapUsuario.put("uid", getUid());
+        hashMapUsuario.put("nome", getName());
+        hashMapUsuario.put("email", getEmail());
+        hashMapUsuario.put("senha", getPassword());
 
         return hashMapUsuario;
     }
-
 
 
     public String getName() {

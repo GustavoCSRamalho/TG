@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.root.tg_01.models.Usuario;
 import com.example.root.tg_01.service.database.firebase.FireBaseService;
+import com.example.root.tg_01.service.database.firebase.empresa.EmpresaService;
 import com.example.root.tg_01.service.database.firebase.interfaces.FireBaseInterf;
 import com.example.root.tg_01.utils.Base64Custom;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class activity_cadastro extends Activity {
+
+
+    protected EmpresaService empresaService;
 
 
     protected FirebaseAuth firebaseAuth;
@@ -38,6 +42,12 @@ public class activity_cadastro extends Activity {
         edt_Senha_Cadastro = findViewById(R.id.edt_Senha_Cadastro);
         gravar = findViewById(R.id.fab_enviarDados_Cadastro);
         fireBase = FireBaseService.getInstance();
+
+        empresaService = EmpresaService.getInstance();
+
+//        empresaService.setOne(getApplicationContext());
+
+        empresaService.setEmpresaListener();
 
         firebaseAuth = fireBase.getFirebaseAuth();
 
@@ -61,7 +71,7 @@ public class activity_cadastro extends Activity {
 
                                         FirebaseUser usuarioFireBase = task.getResult().getUser();
 
-                                        usuario.setId(usuarioFireBase.getUid());
+                                        usuario.setUid(usuarioFireBase.getUid());
                                         System.out.println("UID : "+usuarioFireBase.getUid());
 //                                        fireBase.buildConfiguration();
                                         fireBase.saveUsuarioData(usuario);

@@ -52,6 +52,7 @@ public class FireBaseService implements FireBaseInterf {
         if (fireBaseService == null) {
             fireBaseService = new FireBaseService();
         }
+
         return fireBaseService;
     }
 
@@ -64,7 +65,7 @@ public class FireBaseService implements FireBaseInterf {
 
     public void buildConfiguration() {
         fireBaseService.supportData = new SupportDataFireDB();
-        database = FirebaseDatabase.getInstance();
+//        database = FirebaseDatabase.getInstance();
 
         setDataBaseRefCoordenate();
         setDataBaseRefPedidos();
@@ -86,13 +87,14 @@ public class FireBaseService implements FireBaseInterf {
 
     @Override
     public void saveUsuarioData(Usuario usuario) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        fireBaseService.dataBaseRefUsuarios = database.getReference("usuarios");
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        fireBaseService.dataBaseRefUsuarios = getDataBaseRefUsuarios();
         fireBaseService.dataBaseRefUsuarios.push().setValue(usuario);
     }
 
     public void setPedidoDataListener() {
-        fireBaseService.dataBaseRefPedidos.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference pedidos = getDataBaseRefPedidos();
+        pedidos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 pedidolist = new ArrayList<>();
@@ -117,7 +119,8 @@ public class FireBaseService implements FireBaseInterf {
     }
 
     public void setAllCoordenateData() {
-        fireBaseService.dataBaseRefCoordenate.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference coordenate = getDataBaseRefCoordenate();
+        coordenate.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mapsActivity.clear();
@@ -148,8 +151,8 @@ public class FireBaseService implements FireBaseInterf {
     }
 
     public void setListenerToCoordenateDataBase() {
-
-        fireBaseService.dataBaseRefCoordenate.addValueEventListener(new ValueEventListener() {
+        DatabaseReference coordenate = getDataBaseRefCoordenate();
+        coordenate.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mapsActivity.clear();
@@ -174,12 +177,14 @@ public class FireBaseService implements FireBaseInterf {
 
     @Override
     public void setDataBaseRefCoordenate() {
+        FirebaseDatabase database = getFirebaseDatabase();
         fireBaseService.dataBaseRefCoordenate = database.getReference(supportData.getDatabaseNameCoordenate());
 
     }
 
     @Override
     public void setDataBaseRefPedidos() {
+        FirebaseDatabase database = getFirebaseDatabase();
         fireBaseService.dataBaseRefPedidos = database.getReference(supportData.getDatabaseNamePedidos());
 
 
@@ -187,7 +192,43 @@ public class FireBaseService implements FireBaseInterf {
 
     @Override
     public void setDataBaseRefUsuarios() {
+        FirebaseDatabase database = getFirebaseDatabase();
         fireBaseService.dataBaseRefUsuarios = database.getReference("usuarios");
+    }
+
+    @Override
+    public DatabaseReference getDataBaseRefCoordenate() {
+        FirebaseDatabase database = getFirebaseDatabase();
+        if(dataBaseRefCoordenate == null){
+            dataBaseRefCoordenate= database.getReference(supportData.getDatabaseNameCoordenate());
+        }
+        return dataBaseRefCoordenate;
+    }
+
+    @Override
+    public DatabaseReference getDataBaseRefPedidos() {
+        FirebaseDatabase database = getFirebaseDatabase();
+        if(dataBaseRefPedidos == null){
+            dataBaseRefPedidos = database.getReference(supportData.getDatabaseNamePedidos());
+        }
+        return dataBaseRefPedidos;
+    }
+
+    @Override
+    public DatabaseReference getDataBaseRefUsuarios() {
+        FirebaseDatabase database = getFirebaseDatabase();
+        if(dataBaseRefUsuarios == null){
+            dataBaseRefUsuarios = database.getReference("usuarios");
+        }
+        return dataBaseRefUsuarios;
+    }
+
+    @Override
+    public FirebaseDatabase getFirebaseDatabase() {
+        if(database == null){
+            database = FirebaseDatabase.getInstance();
+        }
+        return database;
     }
 
     @Override

@@ -10,14 +10,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.tg_01.R;
 import com.example.root.tg_01.models.Coordenate;
-import com.example.root.tg_01.service.button.ButtonAction;
-import com.example.root.tg_01.service.button.interfaces.ButtonActionInterf;
 import com.example.root.tg_01.service.coordenate.CoordenateListener;
 import com.example.root.tg_01.service.coordenate.interfaces.CoordenateListenerInterf;
 import com.example.root.tg_01.service.database.firebase.FireBaseService;
@@ -41,16 +38,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private volatile Coordenate coordenate;
 
-    private Button botaoAssedio;
-
-    private Button botaoAmeaca;
-
-    private Button botaoDanomoral;
-
-    private Button botaoInformacao;
-
-    private ButtonActionInterf buttonAction;
-
     private CoordenateListenerInterf coordenateListener;
 
     private MapsActionInterf mapsAction;
@@ -68,10 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        botaoAssedio = (Button) findViewById(R.id.assedio);
-        botaoAmeaca = (Button) findViewById(R.id.ameaca);
-        botaoDanomoral = (Button) findViewById(R.id.danomoral);
-        botaoInformacao = findViewById(R.id.informacaoButton);
     }
 
     @Override
@@ -79,14 +62,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         coordenateListener = CoordenateListener.getInstance();
         mapsAction = MapsAction.getInstance();
-        buttonAction = ButtonAction.getInstance();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         geofenceInterf = new GeofenceService();
         geofenceInterf.build(this);
         buildLayoutsReference();
         mapFragment.getMapAsync(this);
-        buttonAction.buildButoes(new Button[]{botaoAssedio, botaoAmeaca, botaoDanomoral, botaoInformacao}, MapsActivity.this);
+
 
     }
 
